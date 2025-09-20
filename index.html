@@ -1,42 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Match de Filme para Casal</title>
-<style>
-  body{font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#f4f4f4;margin:0;padding:20px}
-  input, button{padding:10px;margin:5px;width:300px;border-radius:6px;border:1px solid #ccc}
-  button{cursor:pointer;background:#4CAF50;color:white;border:none}
-  #output{margin-top:20px;font-size:18px;color:#333;text-align:center}
-</style>
+  <meta charset="UTF-8">
+  <title>Match de Filmes - Casal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fce4ec;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #d81b60;
+    }
+    textarea {
+      width: 300px;
+      height: 120px;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: none;
+    }
+    button {
+      padding: 10px 20px;
+      background: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+    button:hover {
+      background: #ad1457;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #880e4f;
+    }
+  </style>
 </head>
 <body>
-<h2>Digite sua lista de filmes e a lista do seu parceiro</h2>
-<input type="text" id="myList" placeholder="Minha lista: Titanic, La La Land, Coco" />
-<input type="text" id="theirList" placeholder="Lista dele/dela: Corra!, Mad Max, Questão de Tempo" />
-<button onclick="matchMovie()">Encontrar Filme em Comum</button>
-<div id="output"></div>
-<script>
-function matchMovie(){
-  const myList = document.getElementById('myList').value.split(',').map(f=>f.trim()).filter(f=>f);
-  const theirList = document.getElementById('theirList').value.split(',').map(f=>f.trim()).filter(f=>f);
+  <h1>🎬 Match de Filmes 💕</h1>
+  <p>Coloque sua lista e a do seu parceiro (um filme por linha):</p>
 
-  if(myList.length === 0 || theirList.length === 0){
-    document.getElementById('output').innerText = 'Por favor, digite ambas as listas.';
-    return;
-  }
+  <div>
+    <h3>Sua lista</h3>
+    <textarea id="lista1" placeholder="Digite seus filmes aqui..."></textarea>
+  </div>
 
-  const common = myList.filter(f => theirList.includes(f));
+  <div>
+    <h3>Lista do parceiro</h3>
+    <textarea id="lista2" placeholder="Digite os filmes dele(a) aqui..."></textarea>
+  </div>
 
-  if(common.length === 0){
-    document.getElementById('output').innerText = 'Nenhum filme em comum 😢';
-    return;
-  }
+  <button onclick="encontrarMatch()">Ver Match</button>
+  <button onclick="copiarLink()">📋 Copiar link para enviar</button>
 
-  const chosen = common[Math.floor(Math.random()*common.length)];
-  document.getElementById('output').innerText = 'O filme que deu match é: ' + chosen + ' 🎬';
-}
-</script>
+  <div id="resultado"></div>
+
+  <script>
+    function encontrarMatch() {
+      const lista1 = document.getElementById("lista1").value
+        .split("\n").map(f => f.trim().toLowerCase()).filter(f => f);
+      const lista2 = document.getElementById("lista2").value
+        .split("\n").map(f => f.trim().toLowerCase()).filter(f => f);
+
+      const match = lista1.filter(f => lista2.includes(f));
+
+      const resultado = document.getElementById("resultado");
+      if (match.length > 0) {
+        const escolhido = match[Math.floor(Math.random() * match.length)];
+        resultado.innerHTML = `✨ O filme escolhido foi: <strong>${escolhido.toUpperCase()}</strong>`;
+      } else {
+        resultado.innerHTML = "😢 Nenhum filme em comum encontrado!";
+      }
+    }
+
+    function copiarLink() {
+      const link = window.location.href;
+      navigator.clipboard.writeText(link).then(() => {
+        alert("✅ Link copiado! Agora é só enviar pro seu parceiro(a).");
+      });
+    }
+  </script>
 </body>
 </html>
