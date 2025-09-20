@@ -50,6 +50,8 @@
   <div>
     <h3>Sua lista</h3>
     <textarea id="lista1" placeholder="Digite seus filmes aqui..."></textarea>
+    <br>
+    <button onclick="gerarLink()">🔗 Gerar link com minha lista</button>
   </div>
 
   <div>
@@ -58,34 +60,12 @@
   </div>
 
   <button onclick="encontrarMatch()">Ver Match</button>
-  <button onclick="copiarLink()">📋 Copiar link para enviar</button>
+  <button onclick="copiarLink()">📋 Copiar link desta página</button>
 
   <div id="resultado"></div>
 
   <script>
-    function encontrarMatch() {
-      const lista1 = document.getElementById("lista1").value
-        .split("\n").map(f => f.trim().toLowerCase()).filter(f => f);
-      const lista2 = document.getElementById("lista2").value
-        .split("\n").map(f => f.trim().toLowerCase()).filter(f => f);
-
-      const match = lista1.filter(f => lista2.includes(f));
-
-      const resultado = document.getElementById("resultado");
-      if (match.length > 0) {
-        const escolhido = match[Math.floor(Math.random() * match.length)];
-        resultado.innerHTML = `✨ O filme escolhido foi: <strong>${escolhido.toUpperCase()}</strong>`;
-      } else {
-        resultado.innerHTML = "😢 Nenhum filme em comum encontrado!";
-      }
-    }
-
-    function copiarLink() {
-      const link = window.location.href;
-      navigator.clipboard.writeText(link).then(() => {
-        alert("✅ Link copiado! Agora é só enviar pro seu parceiro(a).");
-      });
-    }
-  </script>
-</body>
-</html>
+    // Pega parâmetros da URL
+    function getParams() {
+      const params = new URLSearchParams(window.location.search);
+      const lista1 = params.get("lista1");
