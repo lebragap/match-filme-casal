@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Match de Filme para Casal</title>
+<style>
+  body{font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#f4f4f4;margin:0;padding:20px}
+  input, button{padding:10px;margin:5px;width:300px;border-radius:6px;border:1px solid #ccc}
+  button{cursor:pointer;background:#4CAF50;color:white;border:none}
+  #output{margin-top:20px;font-size:18px;color:#333;text-align:center}
+</style>
+</head>
+<body>
+<h2>Digite sua lista de filmes e a lista do seu parceiro</h2>
+<input type="text" id="myList" placeholder="Minha lista: Titanic, La La Land, Coco" />
+<input type="text" id="theirList" placeholder="Lista dele/dela: Corra!, Mad Max, Questão de Tempo" />
+<button onclick="matchMovie()">Encontrar Filme em Comum</button>
+<div id="output"></div>
+<script>
+function matchMovie(){
+  const myList = document.getElementById('myList').value.split(',').map(f=>f.trim()).filter(f=>f);
+  const theirList = document.getElementById('theirList').value.split(',').map(f=>f.trim()).filter(f=>f);
+
+  if(myList.length === 0 || theirList.length === 0){
+    document.getElementById('output').innerText = 'Por favor, digite ambas as listas.';
+    return;
+  }
+
+  const common = myList.filter(f => theirList.includes(f));
+
+  if(common.length === 0){
+    document.getElementById('output').innerText = 'Nenhum filme em comum 😢';
+    return;
+  }
+
+  const chosen = common[Math.floor(Math.random()*common.length)];
+  document.getElementById('output').innerText = 'O filme que deu match é: ' + chosen + ' 🎬';
+}
+</script>
+</body>
+</html>
